@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="AI Department Timetable Generator with load balancing — Q-Learning RL produces conflict-free, evenly distributed schedules for all divisions."/>
+  <title>AI Department Timetable | Load-Balanced RL Scheduler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+<!-- ══ BACKGROUND ═══════════════════════════════════════════ -->
+<div class="bg-grid" aria-hidden="true"></div>
+<div id="particles" class="particles" aria-hidden="true"></div>
+
+<!-- ══ HERO ═════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span>Multi-Division · Load-Balanced · Q-Learning RL</div>
+  <h1 class="hero-title">
+    Department Timetable
+    <span class="gradient-text">Generator</span>
+  </h1>
+  <p class="hero-subtitle">
+    Configure divisions, days, subjects and rooms — the RL agent generates a balanced,
+    conflict-free schedule for the entire department.
+  </p>
+  <div class="rl-pillbox">
+    <div class="rl-pill"><span class="pill-icon">🧠</span><div><div class="pill-label">State</div><div class="pill-desc">All assignments across divisions</div></div></div>
+    <div class="rl-pill"><span class="pill-icon">⚡</span><div><div class="pill-label">Action</div><div class="pill-desc">Assign subject → day · slot · room</div></div></div>
+    <div class="rl-pill"><span class="pill-icon">🏆</span><div><div class="pill-label">Reward</div><div class="pill-desc">+10 clean · penalties for clashes &amp; overload</div></div></div>
+    <div class="rl-pill"><span class="pill-icon">⚖️</span><div><div class="pill-label">Load Balance</div><div class="pill-desc">Even spread · no teacher overload</div></div></div>
+  </div>
+</header>
+
+<!-- ══ CONFIG STEPS ══════════════════════════════════════════ -->
+<main class="container" id="main">
+
+  <!-- ── STEP 0: Working Days ──────────────────────────────── -->
+  <section class="card" id="days-card">
+    <div class="card-header">
+      <div class="card-icon">📆</div>
+      <div>
+        <h2 class="card-title">Step 1 — Working Days</h2>
+        <p class="card-sub">Select the working days for your department (Monday to Saturday).</p>
+      </div>
+      <div class="days-count-badge" id="days-count-badge">5 days selected</div>
+    </div>
+    <div class="days-picker" id="days-picker">
+      <!-- Rendered by JS -->
+    </div>
+    <p class="hint" id="days-hint"></p>
+  </section>
+
+  <!-- ── STEP 1: Divisions ─────────────────────────────────── -->
+  <section class="card" id="divisions-card">
+    <div class="card-header">
+      <div class="card-icon">🏫</div>
+      <div>
+        <h2 class="card-title">Step 2 — Divisions</h2>
+        <p class="card-sub">Add the class divisions in your department (e.g., Div A, Div B …).</p>
+      </div>
+    </div>
+    <div class="add-form">
+      <input id="div-name" class="form-input" type="text" placeholder="Division name (e.g. Div A)" style="flex:1"/>
+      <button id="add-div-btn" class="btn btn-secondary" onclick="addDivision()">+ Add</button>
+    </div>
+    <div id="divisions-list" class="tag-list"></div>
+  </section>
+
+  <!-- ── STEP 2: Subjects ──────────────────────────────────── -->
+  <section class="card" id="subjects-card">
+    <div class="card-header">
+      <div class="card-icon">📚</div>
+      <div>
+        <h2 class="card-title">Step 3 — Subjects &amp; Teachers</h2>
+        <p class="card-sub">Select a division tab, then add its subjects with assigned teacher and weekly lecture count.</p>
+      </div>
+      <!-- Equal load indicator -->
+      <div id="load-balance-badge" class="load-balance-badge" style="display:none"></div>
+    </div>
+    <div id="div-selector" class="div-tabs"></div>
+    <div class="add-form">
+      <input id="subj-name"     class="form-input" type="text"   placeholder="Subject name"/>
+      <input id="subj-teacher"  class="form-input" type="text"   placeholder="Teacher name"/>
+      <input id="subj-lectures" class="form-input" type="number" placeholder="Lec/week" min="1" max="10" value="3"/>
+      <button id="add-subj-btn" class="btn btn-secondary" onclick="addSubject()">+ Add</button>
+    </div>
+    <div id="subjects-list" class="tag-list"></div>
+    <p class="hint" id="subj-hint">👆 Add divisions first, then select one to add subjects.</p>
+    <!-- Per-division lecture totals mini bar -->
+    <div id="div-totals-bar" class="div-totals-bar" style="display:none"></div>
+  </section>
+
+  <!-- ── STEP 3: Rooms ─────────────────────────────────────── -->
+  <section class="card" id="rooms-card">
+    <div class="card-header">
+      <div class="card-icon">🏛️</div>
+      <div>
+        <h2 class="card-title">Step 4 — Rooms / Venues</h2>
+        <p class="card-sub">Shared rooms and labs available to all divisions.</p>
+      </div>
+    </div>
+    <div class="add-form">
+      <input id="room-name" class="form-input" type="text" placeholder="Room name (e.g. Room 101)" style="flex:1"/>
+      <button id="add-room-btn" class="btn btn-secondary" onclick="addRoom()">+ Add</button>
+    </div>
+    <div id="rooms-list" class="tag-list"></div>
+  </section>
+
+  <!-- ── STEP 4: Time Slots ────────────────────────────────── -->
+  <section class="card" id="slots-card">
+    <div class="card-header">
+      <div class="card-icon">🕐</div>
+      <div>
+        <h2 class="card-title">Step 5 — Time Slots</h2>
+        <p class="card-sub">Lecture periods per day (shared by all divisions).</p>
+      </div>
+    </div>
+    <div class="add-form">
+      <input id="slot-name" class="form-input" type="text" placeholder="e.g. 9-10 AM" style="flex:1"/>
+      <button id="add-slot-btn" class="btn btn-secondary" onclick="addSlot()">+ Add</button>
+    </div>
+    <div id="slots-list" class="tag-list"></div>
+  </section>
+
+  <!-- ── GENERATE BUTTON ───────────────────────────────────── -->
+  <section class="actions-bar">
+    <button class="btn btn-ghost" onclick="loadDemo()">🎲 Load Demo Data</button>
+    <button class="btn btn-ghost" onclick="clearAll()">🗑️ Clear All</button>
+    <button id="generate-btn" class="btn btn-primary" onclick="generateTimetable()">
+      <span id="btn-text">⚡ Generate Department Timetable</span>
+      <span id="btn-spinner" class="spinner" style="display:none"></span>
+    </button>
+  </section>
+
+  <div id="error-banner" class="error-banner" style="display:none"></div>
+
+  <!-- ══ RESULTS ════════════════════════════════════════════ -->
+  <section id="results" style="display:none">
+
+    <!-- Stats row -->
+    <div class="stats-row" id="stats-row"></div>
+
+    <!-- Conflict panel -->
+    <div id="conflict-section" class="card conflict-card" style="display:none">
+      <div class="card-header">
+        <div class="card-icon">⚠️</div>
+        <div>
+          <h2 class="card-title">Conflicts Detected</h2>
+          <p class="card-sub">Add more rooms/slots or reduce lectures per week to help the RL agent resolve these.</p>
+        </div>
+      </div>
+      <div id="conflict-list"></div>
+    </div>
+
+    <!-- Division timetable tabs -->
+    <div class="card" id="timetable-card">
+      <div class="card-header">
+        <div class="card-icon">📅</div>
+        <div>
+          <h2 class="card-title">Generated Timetables</h2>
+          <p class="card-sub" id="timetable-subtitle">One tab per division.</p>
+        </div>
+        <button class="btn btn-ghost" style="margin-left:auto" onclick="window.print()">🖨️ Print</button>
+      </div>
+      <div id="result-tabs" class="result-tabs"></div>
+      <div id="tab-panels"></div>
+      <div class="legend">
+        <span class="legend-item ok">✅ Clean</span>
+        <span class="legend-item clash">❌ Teacher clash</span>
+        <span class="legend-item room-clash">🏛️ Room clash</span>
+        <span class="legend-item slot-clash">🔁 Slot overlap</span>
+        <span class="legend-item load-warn">🔥 Overloaded</span>
+      </div>
+    </div>
+
+    <!-- ── LOAD SUMMARY ───────────────────────────────────── -->
+    <div class="card" id="load-summary-card">
+      <div class="card-header">
+        <div class="card-icon">📊</div>
+        <div>
+          <h2 class="card-title">Load Distribution Summary</h2>
+          <p class="card-sub">Workload breakdown by teacher per day and lectures per division per day.</p>
+        </div>
+      </div>
+
+      <!-- Teacher load table -->
+      <h3 class="summary-section-title">👤 Teacher Workload (lectures per day)</h3>
+      <div class="table-scroll" id="teacher-load-table"></div>
+
+      <!-- Division day distribution -->
+      <h3 class="summary-section-title" style="margin-top:28px">🏫 Division Day Distribution</h3>
+      <div id="div-day-bars"></div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="footer">
+  AI Department Timetable Generator &nbsp;·&nbsp; Load-Balanced Q-Learning RL &nbsp;·&nbsp; Flask + Vanilla JS
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
