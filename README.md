@@ -61,4 +61,4 @@ The Q-learning agent has demonstrated highly robust performance in reliably achi
 
 ---
 
-*Built with ❤️ for improved educational scheduling.*
+
