@@ -9,12 +9,20 @@ Enhancements over v2:
 """
 
 import math
+import os
 import random
 from itertools import product
 
 from flask import Flask, jsonify, render_template, request
 
-app = Flask(__name__)
+# Base directory is the directory containing app.py (i.e. 'backend')
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# Frontend directory is alongside the backend directory
+FRONTEND_DIR = os.path.join(BASE_DIR, "..", "frontend")
+
+app = Flask(__name__, 
+            template_folder=os.path.join(FRONTEND_DIR, "templates"), 
+            static_folder=os.path.join(FRONTEND_DIR, "static"))
 
 
 # ══════════════════════════════════════════════════════════════
