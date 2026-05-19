@@ -1,0 +1,30 @@
+:root {
+  --cream: #F2EAE0;
+  --blue: #B4D3D9;
+  --lavender: #BDA6CE;
+  --purple: #9B8EC7;
+  --text-dark: #3d3250;
+  --text-mid: #6b5f82;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Serif Display', serif;
+  color: var(--purple);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

@@ -1,0 +1,69 @@
+# -------------------------
+# Python cache & compiled
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# -------------------------
+# Virtual Environment
+# -------------------------
+.venv/
+venv/
+env/
+
+# -------------------------
+# Environment variables
+# -------------------------
+.env
+
+# -------------------------
+# Logs & temp files
+# -------------------------
+*.log
+*.tmp
+
+# -------------------------
+# Database files (if local)
+# -------------------------
+*.sqlite3
+*.db
+
+# -------------------------
+# ML Models & large files
+# -------------------------
+*.h5
+*.pkl
+*.joblib
+
+# -------------------------
+# Data folders (optional)
+# -------------------------
+data/
+datasets/
+training_data/
+
+# -------------------------
+# Exported / generated files
+# -------------------------
+exports/
+
+# -------------------------
+# Jupyter Notebook checkpoints
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# IDE / Editor files
+# -------------------------
+.vscode/
+.idea/
+
+# -------------------------
+# OS files
+# -------------------------
+.DS_Store
+Thumbs.db
+
+.env
