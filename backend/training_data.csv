@@ -1,0 +1,47 @@
+division,subject,teacher,room,day,slot,conflicted,teacherClash,roomClash,divSlotClash,loadWarning
+Div A,Physics,Dr. Patel,Lab A,Tue,1-2 PM,False,False,False,False,False
+Div A,Physics,Dr. Patel,Lab A,Thu,1-2 PM,False,False,False,False,False
+Div A,Computer Science,Mr. Mehta,Room 102,Thu,9-10 AM,False,False,False,False,False
+Div A,Mathematics,Mr. Sharma,Room 102,Fri,9-10 AM,False,False,False,False,False
+Div A,Mathematics,Mr. Sharma,Lab A,Mon,2-3 PM,False,False,False,False,False
+Div A,Computer Science,Mr. Mehta,Room 101,Mon,3-4 PM,False,False,False,False,False
+Div A,Physics,Dr. Patel,Lab B,Fri,2-3 PM,False,False,False,False,False
+Div A,Computer Science,Mr. Mehta,Lab A,Thu,3-4 PM,False,False,False,False,False
+Div A,Mathematics,Mr. Sharma,Room 102,Wed,3-4 PM,False,False,False,False,False
+Div A,Mathematics,Mr. Sharma,Room 101,Wed,1-2 PM,False,False,False,False,False
+Div B,Biology,Dr. Singh,Room 102,Mon,1-2 PM,False,False,False,False,False
+Div B,Mathematics,Mr. Sharma,Room 102,Tue,2-3 PM,False,False,False,False,False
+Div B,Mathematics,Mr. Sharma,Room 102,Mon,9-10 AM,False,False,False,False,False
+Div B,Chemistry,Ms. Verma,Room 103,Tue,9-10 AM,False,False,False,False,False
+Div B,Biology,Dr. Singh,Lab B,Wed,3-4 PM,False,False,False,False,False
+Div B,Mathematics,Mr. Sharma,Room 102,Fri,2-3 PM,False,False,False,False,False
+Div B,Biology,Dr. Singh,Lab A,Tue,10-11 AM,False,False,False,False,False
+Div B,Chemistry,Ms. Verma,Room 103,Thu,10-11 AM,False,False,False,False,False
+Div B,Mathematics,Mr. Sharma,Room 101,Wed,10-11 AM,False,False,False,False,False
+Div B,Chemistry,Ms. Verma,Room 101,Tue,1-2 PM,False,False,False,False,True
+Div C,Physics,Dr. Patel,Room 102,Fri,1-2 PM,False,False,False,False,False
+Div C,Mathematics,Dr. Roy,Lab A,Mon,11-12 PM,False,False,False,False,False
+Div C,Mathematics,Dr. Roy,Lab A,Mon,1-2 PM,False,False,False,False,False
+Div C,Mathematics,Dr. Roy,Room 103,Fri,3-4 PM,False,False,False,False,False
+Div C,Physics,Dr. Patel,Lab B,Thu,11-12 PM,False,False,False,False,False
+Div C,Computer Science,Mr. Mehta,Lab B,Mon,9-10 AM,False,False,False,False,False
+Div C,Mathematics,Dr. Roy,Room 103,Wed,3-4 PM,False,False,False,False,False
+Div C,Physics,Dr. Patel,Room 101,Wed,2-3 PM,False,False,False,False,False
+Div C,Computer Science,Mr. Mehta,Lab B,Mon,10-11 AM,False,False,False,False,True
+Div D,History,Mr. Khan,Room 101,Thu,11-12 PM,False,False,False,False,False
+Div D,Mathematics,Dr. Roy,Room 102,Tue,3-4 PM,False,False,False,False,False
+Div D,Chemistry,Ms. Verma,Room 103,Mon,10-11 AM,False,False,False,False,False
+Div D,History,Mr. Khan,Room 103,Thu,1-2 PM,False,False,False,False,False
+Div D,Chemistry,Ms. Verma,Room 102,Thu,2-3 PM,False,False,False,False,False
+Div D,Chemistry,Ms. Verma,Room 103,Mon,3-4 PM,False,False,False,False,False
+Div D,Mathematics,Dr. Roy,Room 101,Wed,11-12 PM,False,False,False,False,False
+Div D,Mathematics,Dr. Roy,Room 103,Mon,2-3 PM,False,False,False,False,False
+Div D,Mathematics,Dr. Roy,Lab B,Fri,10-11 AM,False,False,False,False,False
+Div E,English,Mrs. Kapoor,Room 101,Mon,11-12 PM,False,False,False,False,False
+Div E,Physics,Dr. Patel,Lab A,Thu,2-3 PM,False,False,False,False,False
+Div E,English,Mrs. Kapoor,Lab A,Tue,9-10 AM,False,False,False,False,False
+Div E,Chemistry,Ms. Verma,Lab B,Fri,11-12 PM,False,False,False,False,False
+Div E,Physics,Dr. Patel,Lab B,Thu,10-11 AM,False,False,False,False,True
+Div E,English,Mrs. Kapoor,Lab A,Tue,3-4 PM,False,False,False,False,False
+Div E,Chemistry,Ms. Verma,Lab B,Wed,1-2 PM,False,False,False,False,False
+Div E,Physics,Dr. Patel,Lab A,Wed,9-10 AM,False,False,False,False,False

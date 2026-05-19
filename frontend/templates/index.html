@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Department Timetable | Load-Balanced RL Scheduler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css"/>
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+<div id="particles" class="particles" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="hero-badge"><span class="badge-dot"></span>Multi-Division · Load-Balanced · Q-Learning RL</div>
+  <h1 class="hero-title">Department Timetable <span class="gradient-text">Generator</span></h1>
+  <p class="hero-subtitle">Intelligent, conflict-free scheduling with LSTM-based quality analysis.</p>
+</header>
+
+<main class="container" id="main">
+  <section class="card" id="days-card">
+    <div class="card-header">
+      <div class="card-icon">📆</div>
+      <div><h2 class="card-title">Step 1 — Working Days</h2></div>
+      <div class="days-count-badge" id="days-count-badge">5 days selected</div>
+    </div>
+    <div class="days-picker" id="days-picker"></div>
+    <p class="hint" id="days-hint"></p>
+  </section>
+
+  <section class="card" id="divisions-card">
+    <div class="card-header">
+      <div class="card-icon">🏫</div>
+      <div><h2 class="card-title">Step 2 — Divisions</h2></div>
+    </div>
+    <div class="add-form">
+      <input id="div-name" class="form-input" type="text" placeholder="Division name (e.g. Div A)" style="flex:1"/>
+      <button id="add-div-btn" class="btn btn-secondary" onclick="addDivision()">+ Add</button>
+    </div>
+    <div id="divisions-list" class="tag-list"></div>
+  </section>
+
+  <section class="card" id="subjects-card">
+    <div class="card-header">
+      <div class="card-icon">📚</div>
+      <div><h2 class="card-title">Step 3 — Subjects & Teachers</h2></div>
+      <div id="load-balance-badge" class="load-balance-badge" style="display:none"></div>
+    </div>
+    <div id="div-selector" class="div-tabs"></div>
+    <div class="add-form">
+      <input id="subj-name" class="form-input" type="text" placeholder="Subject name"/>
+      <input id="subj-teacher" class="form-input" type="text" placeholder="Teacher name"/>
+      <input id="subj-lectures" class="form-input" type="number" value="3"/>
+      <button id="add-subj-btn" class="btn btn-secondary" onclick="addSubject()">+ Add</button>
+    </div>
+    <div id="subjects-list" class="tag-list"></div>
+    <div id="div-totals-bar" class="div-totals-bar" style="display:none"></div>
+  </section>
+
+  <section class="card" id="rooms-card">
+    <div class="card-header"><div class="card-icon">🏛️</div><h2 class="card-title">Step 4 — Rooms</h2></div>
+    <div class="add-form">
+      <input id="room-name" class="form-input" type="text" placeholder="Room 101" style="flex:1"/>
+      <button id="add-room-btn" class="btn btn-secondary" onclick="addRoom()">+ Add</button>
+    </div>
+    <div id="rooms-list" class="tag-list"></div>
+  </section>
+
+  <section class="card" id="slots-card">
+    <div class="card-header"><div class="card-icon">🕐</div><h2 class="card-title">Step 5 — Slots</h2></div>
+    <div class="add-form">
+      <input id="slot-name" class="form-input" type="text" placeholder="9-10 AM" style="flex:1"/>
+      <button id="add-slot-btn" class="btn btn-secondary" onclick="addSlot()">+ Add</button>
+    </div>
+    <div id="slots-list" class="tag-list"></div>
+  </section>
+
+  <section class="actions-bar">
+    <button class="btn btn-ghost" onclick="loadDemo()">🎲 Load Demo Data</button>
+    <button id="generate-btn" class="btn btn-primary" onclick="generateTimetable()">
+      <span id="btn-text">⚡ Generate Department Timetable</span>
+      <span id="btn-spinner" class="spinner" style="display:none"></span>
+    </button>
+  </section>
+
+  <div id="error-banner" class="error-banner" style="display:none"></div>
+
+  <section id="results" style="display:none">
+    <div class="stats-row" id="stats-row"></div>
+    
+    <div id="lstm-analysis-anchor"></div>
+
+    <div class="card" id="timetable-card">
+      <div id="result-tabs" class="result-tabs"></div>
+      <div id="tab-panels"></div>
+    </div>
+
+    <div class="card" id="load-summary-card">
+      <h3 class="summary-section-title">👤 Teacher Workload</h3>
+      <div class="table-scroll" id="teacher-load-table"></div>
+      <h3 class="summary-section-title">🏫 Division Distribution</h3>
+      <div id="div-day-bars"></div>
+    </div>
+  </section>
+</main>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

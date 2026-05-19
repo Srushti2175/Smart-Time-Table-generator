@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../AIML_MDM_timetable/backend"
+		},
+		{
+			"path": "../AIML_MDM_timetable/Final_Outputs"
+		},
+		{
+			"path": "../AIML_MDM_timetable/frontend"
+		}
+	]
+}
